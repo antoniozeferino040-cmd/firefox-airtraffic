@@ -1,0 +1,150 @@
+body {
+  width: 360px;
+  padding: 12px;
+  font-family: system-ui, sans-serif;
+  font-size: 13px;
+  color: #e0e0e0;
+  background: #1a1a2e;
+}
+
+h1 {
+  font-size: 16px;
+  margin: 0 0 12px;
+  color: #fff;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+input, select, button {
+  padding: 6px 8px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-size: 13px;
+  background: #16213e;
+  color: #e0e0e0;
+}
+
+button {
+  background: #0f3460;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background: #1a4a7a;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #222;
+}
+
+li .rule-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+li .rule-pattern {
+  font-weight: bold;
+}
+
+li .rule-meta {
+  font-size: 11px;
+  color: #888;
+}
+
+li .container-badge {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.form-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.form-actions button {
+  flex: 1;
+}
+
+.cancel-btn {
+  background: transparent;
+  border: 1px solid #444;
+  color: #aaa;
+}
+
+.cancel-btn:hover {
+  border-color: #666;
+  color: #e0e0e0;
+}
+
+.rule-actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+button.edit-btn,
+button.delete-btn {
+  background: transparent;
+  font-size: 16px;
+  padding: 2px 6px;
+  border: none;
+}
+
+button.edit-btn {
+  color: #888;
+}
+
+button.edit-btn:hover {
+  color: #e0e0e0;
+}
+
+button.delete-btn {
+  color: #e74c3c;
+}
+
+button.delete-btn:hover {
+  color: #ff6b6b;
+}
+
+.hint {
+  font-size: 11px;
+  color: #666;
+  font-style: italic;
+}
+
+footer {
+  margin-top: 12px;
+  padding-top: 8px;
+  border-top: 1px solid #222;
+  text-align: center;
+}
+
+footer a {
+  color: #666;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #aaa;
+}
