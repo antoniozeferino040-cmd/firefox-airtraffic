@@ -25,6 +25,14 @@ function urlMatchesPattern(url, rule) {
       return lowerUrl.includes(lowerPattern);
     case "startsWith":
       return lowerUrl.startsWith(lowerPattern);
+    case "wildcard": {
+      const escaped = lowerPattern.replace(/[.+^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*");
+      try {
+        return new RegExp(escaped, "i").test(url);
+      } catch {
+        return false;
+      }
+    }
     case "regex":
       try {
         return new RegExp(rule.pattern, "i").test(url);

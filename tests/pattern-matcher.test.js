@@ -76,6 +76,45 @@ describe("urlMatchesPattern", () => {
     const rule = { pattern: "test", matchType: "unknown", cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://test.com", rule), false);
   });
+
+  it("matches wildcard pattern with * as glob", () => {
+    const rule = { pattern: "*.github.com", matchType: "wildcard", cookieStoreId: "firefox-container-1" };
+    assert.equal(urlMatchesPattern("https://api.github.com/repos", rule), true);
+    assert.equal(urlMatchesPattern("https://www.github.com", rule), true);
+    // *.github.com requires a char before .github.com — use "domain" type for exact+subdomain matching
+    assert.equal(urlMatchesPattern("https://github.com", rule), false);
+  });
+
+  it("matches wildcard with ** prefix for any URL", () => {
+    const rule = { pattern: "*github.com*", matchType: "wildcard", cookieStoreId: "firefox-container-1" };
+    assert.equal(urlMatchesPattern("https://github.com/avelino", rule), true);
+    assert.equal(urlMatchesPattern("https://api.github.com", rule), true);
+    assert.equal(urlMatchesPattern("https://fakegithub.com", rule), true); // glob is loose, use domain for strict
+  });
+
+  it("matches wildcard pattern with path glob", () => {
+    const rule = { pattern: "github.com/avelino/*", matchType: "wildcard", cookieStoreId: "firefox-container-1" };
+    assert.equal(urlMatchesPattern("https://github.com/avelino/firefox-airtraffic", rule), true);
+    assert.equal(urlMatchesPattern("https://github.com/avelino/", rule), true);
+    assert.equal(urlMatchesPattern("https://github.com/other/repo", rule), false);
+  });
+
+  it("matches wildcard case insensitive", () => {
+    const rule = { pattern: "*.GitHub.COM/*", matchType: "wildcard", cookieStoreId: "firefox-container-1" };
+    assert.equal(urlMatchesPattern("https://api.github.com/repos", rule), true);
+  });
+
+  it("wildcard with no * acts as contains", () => {
+    const rule = { pattern: "github.com", matchType: "wildcard", cookieStoreId: "firefox-container-1" };
+    assert.equal(urlMatchesPattern("https://github.com/avelino", rule), true);
+    assert.equal(urlMatchesPattern("https://example.com", rule), false);
+  });
+
+  it("wildcard escapes regex special chars", () => {
+    const rule = { pattern: "github.com/avelino/*", matchType: "wildcard", cookieStoreId: "firefox-container-1" };
+    // The dot should be literal, not regex any-char
+    assert.equal(urlMatchesPattern("https://githubXcom/avelino/test", rule), false);
+  });
 });
 
 describe("findMatchingRule", () => {

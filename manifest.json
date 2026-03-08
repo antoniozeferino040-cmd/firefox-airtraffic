@@ -14,6 +14,7 @@
     "cookies",
     "tabs",
     "storage",
+    "menus",
     "<all_urls>"
   ],
   "background": {
@@ -27,9 +28,16 @@
     "default_title": "Air Traffic",
     "default_popup": "src/popup/popup.html"
   },
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  },
   "browser_specific_settings": {
     "gecko": {
-      "id": "air-traffic@avelino"
+      "id": "air-traffic@avelino",
+      "data_collection_permissions": {
+        "required": []
+      }
     }
   }
 }

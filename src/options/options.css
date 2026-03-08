@@ -1,0 +1,337 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  color: #e0e0e0;
+  background: #111827;
+}
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+header {
+  margin-bottom: 24px;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0;
+  color: #fff;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+h2 {
+  font-size: 15px;
+  margin: 0 0 12px;
+  color: #d1d5db;
+}
+
+/* Layout */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  align-items: start;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Cards */
+.card {
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.card-desc {
+  margin: -8px 0 12px;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+/* Forms */
+input, select, button {
+  padding: 8px 10px;
+  border: 1px solid #374151;
+  border-radius: 6px;
+  font-size: 13px;
+  background: #111827;
+  color: #e0e0e0;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 8px;
+}
+
+.form-row > * {
+  flex: 1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.form-actions button {
+  flex: 1;
+}
+
+button {
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #374151;
+  color: #9ca3af;
+}
+
+.btn-secondary:hover {
+  border-color: #4b5563;
+  color: #e0e0e0;
+  background: #1f2937;
+}
+
+.hint {
+  font-size: 11px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Rules search */
+.rules-header {
+  margin-bottom: 8px;
+}
+
+.rules-header input {
+  width: 100%;
+}
+
+/* Lists */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Rule items */
+.rule-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid #1f2937;
+}
+
+.rule-item.dragging {
+  opacity: 0.4;
+}
+
+.rule-item.drag-over {
+  border-top: 2px solid #2ecc71;
+}
+
+.drag-handle {
+  cursor: grab;
+  color: #4b5563;
+  padding: 0 4px;
+  font-size: 14px;
+  user-select: none;
+}
+
+.drag-handle:hover {
+  color: #9ca3af;
+}
+
+.rule-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.rule-pattern {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rule-meta {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.container-badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: #fff;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.rule-actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+button.edit-btn,
+button.delete-btn {
+  background: transparent;
+  font-size: 16px;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 4px;
+}
+
+button.edit-btn {
+  color: #6b7280;
+}
+
+button.edit-btn:hover {
+  color: #e0e0e0;
+  background: #374151;
+}
+
+button.delete-btn {
+  color: #ef4444;
+}
+
+button.delete-btn:hover {
+  color: #f87171;
+  background: #374151;
+}
+
+/* Container items */
+.container-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #1f2937;
+}
+
+.container-color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.container-item-name {
+  flex: 1;
+  font-size: 13px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.container-item-icon {
+  font-size: 11px;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+/* Settings */
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  font-size: 13px;
+}
+
+.setting-row input[type="checkbox"] {
+  margin-right: 6px;
+}
+
+.setting-row select {
+  max-width: 180px;
+}
+
+/* Data actions */
+.data-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.data-actions button {
+  flex: 1;
+}
+
+/* Empty state */
+.empty-msg {
+  text-align: center;
+  color: #6b7280;
+  font-size: 13px;
+  padding: 16px 0;
+}
+
+/* Footer */
+footer {
+  margin-top: 32px;
+  padding-top: 16px;
+  border-top: 1px solid #1f2937;
+  text-align: center;
+}
+
+footer a {
+  color: #6b7280;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: #9ca3af;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

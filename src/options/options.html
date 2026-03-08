@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="page">
+    <header>
+      <h1>Air Traffic</h1>
+      <p class="subtitle">URL routing for Firefox containers</p>
+    </header>
+
+    <div class="grid">
+      <!-- Left column: Rules -->
+      <section class="card">
+        <h2>Routing Rules</h2>
+        <p class="card-desc">URL patterns matched in order. First match wins.</p>
+
+        <form id="add-rule-form">
+          <div class="form-row">
+            <select id="match-type-select">
+              <option value="domain">Domain (exact)</option>
+              <option value="domainContains">Domain contains</option>
+              <option value="contains">URL contains</option>
+              <option value="wildcard">Wildcard (*)</option>
+              <option value="regex">Regex (advanced)</option>
+            </select>
+            <select id="container-select" required>
+              <option value="">Container...</option>
+            </select>
+          </div>
+          <input type="text" id="pattern-input" placeholder="github.com" required>
+          <span id="match-hint" class="hint">Matches github.com and all subdomains</span>
+          <div class="form-actions">
+            <button type="submit" id="submit-btn">Add Rule</button>
+            <button type="button" id="cancel-btn" class="btn-secondary" hidden>Cancel</button>
+          </div>
+        </form>
+
+        <div class="rules-header">
+          <input type="text" id="rules-search" placeholder="Filter rules...">
+        </div>
+        <ul id="rules-list"></ul>
+        <p id="rules-empty" class="empty-msg" hidden>No rules yet. Add one above.</p>
+      </section>
+
+      <!-- Right column: Containers + Settings -->
+      <div class="sidebar">
+        <section class="card">
+          <h2>Containers</h2>
+          <form id="container-form">
+            <input type="text" id="container-name-input" placeholder="Container name" required>
+            <div class="form-row">
+              <select id="container-color-select">
+                <option value="blue">Blue</option>
+                <option value="turquoise">Turquoise</option>
+                <option value="green">Green</option>
+                <option value="yellow">Yellow</option>
+                <option value="orange">Orange</option>
+                <option value="red">Red</option>
+                <option value="pink">Pink</option>
+                <option value="purple">Purple</option>
+                <option value="toolbar">Toolbar</option>
+              </select>
+              <select id="container-icon-select">
+  <!-- populated by JS with emojis -->
+              </select>
+            </div>
+            <div class="form-actions">
+              <button type="submit" id="container-submit-btn">Create</button>
+              <button type="button" id="container-cancel-btn" class="btn-secondary" hidden>Cancel</button>
+            </div>
+          </form>
+          <ul id="containers-list"></ul>
+        </section>
+
+        <section class="card">
+          <h2>Settings</h2>
+
+          <label class="setting-row">
+            <span>Routing mode</span>
+            <select id="mode-select">
+              <option value="route_matched">Route matched URLs</option>
+              <option value="route_all">Route all except matched</option>
+            </select>
+          </label>
+
+          <div id="default-container-row" class="setting-row" hidden>
+            <span>Default container</span>
+            <select id="default-container-select">
+              <option value="">Select...</option>
+            </select>
+          </div>
+
+          <label class="setting-row">
+            <input type="checkbox" id="sync-toggle">
+            <span>Sync rules across devices</span>
+          </label>
+        </section>
+
+        <section class="card">
+          <h2>Data</h2>
+          <div class="data-actions">
+            <button id="export-btn" class="btn-secondary">Export rules</button>
+            <button id="import-btn" class="btn-secondary">Import rules</button>
+            <input type="file" id="import-file" accept=".json" hidden>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <footer>
+      <a href="https://github.com/avelino/firefox-airtraffic" target="_blank">GitHub</a>
+    </footer>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

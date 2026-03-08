@@ -54,14 +54,39 @@ li {
   border-bottom: 1px solid #222;
 }
 
+li.dragging {
+  opacity: 0.4;
+}
+
+li.drag-over {
+  border-top: 2px solid #2ecc71;
+}
+
+li .drag-handle {
+  cursor: grab;
+  color: #555;
+  padding: 0 4px;
+  font-size: 14px;
+  user-select: none;
+}
+
+li .drag-handle:hover {
+  color: #aaa;
+}
+
 li .rule-info {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  flex: 1;
+  min-width: 0;
 }
 
 li .rule-pattern {
   font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 li .rule-meta {
@@ -74,6 +99,7 @@ li .container-badge {
   padding: 2px 6px;
   border-radius: 3px;
   color: #fff;
+  flex-shrink: 0;
 }
 
 .form-actions {
@@ -147,4 +173,9 @@ footer a {
 
 footer a:hover {
   color: #aaa;
+}
+
+footer .sep {
+  color: #444;
+  margin: 0 4px;
 }
