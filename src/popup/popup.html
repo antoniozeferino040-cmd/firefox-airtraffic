@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <link rel="stylesheet" href="../shared/shared.css">
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -22,7 +23,7 @@
     </select>
     <div class="form-actions">
       <button type="submit" id="submit-btn">Add Rule</button>
-      <button type="button" id="cancel-btn" class="cancel-btn" hidden>Cancel</button>
+      <button type="button" id="cancel-btn" class="btn-secondary" hidden>Cancel</button>
     </div>
   </form>
 
@@ -34,6 +35,10 @@
     <a href="https://github.com/avelino/firefox-airtraffic" target="_blank">GitHub</a>
   </footer>
 
+  <script src="../shared/constants.js"></script>
+  <script src="../shared/storage.js"></script>
+  <script src="../shared/containers.js"></script>
+  <script src="../shared/rules-ui.js"></script>
   <script src="popup.js"></script>
 </body>
 </html>

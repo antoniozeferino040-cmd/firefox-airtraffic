@@ -1,0 +1,148 @@
+/* Shared components: rules, containers, drag & drop, actions */
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Rule items */
+.rule-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #222;
+}
+
+.rule-item.dragging {
+  opacity: 0.4;
+}
+
+.rule-item.drag-over {
+  border-top: 2px solid #2ecc71;
+}
+
+.drag-handle {
+  cursor: grab;
+  color: #4b5563;
+  padding: 0 4px;
+  font-size: 14px;
+  user-select: none;
+}
+
+.drag-handle:hover {
+  color: #9ca3af;
+}
+
+.rule-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.rule-pattern {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rule-meta {
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.container-badge {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: #fff;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+/* Actions (shared between rules and containers) */
+.rule-actions {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+button.edit-btn,
+button.delete-btn {
+  background: transparent;
+  font-size: 16px;
+  padding: 4px 6px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.edit-btn {
+  color: #6b7280;
+}
+
+button.edit-btn:hover {
+  color: #e0e0e0;
+  background: #374151;
+}
+
+button.delete-btn {
+  color: #ef4444;
+}
+
+button.delete-btn:hover {
+  color: #f87171;
+  background: #374151;
+}
+
+/* Container items */
+.container-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid #222;
+}
+
+.container-color-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.container-item-name {
+  flex: 1;
+  font-size: 13px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.container-item-icon {
+  font-size: 11px;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+/* Hint text */
+.hint {
+  font-size: 11px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+/* Form actions row */
+.form-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.form-actions button {
+  flex: 1;
+}
