@@ -34,10 +34,7 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "air-traffic@avelino",
-      "data_collection_permissions": {
-        "required": []
-      }
+      "id": "air-traffic@avelino"
     }
   }
 }
