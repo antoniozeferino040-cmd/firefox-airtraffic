@@ -1,40 +1,40 @@
-const { describe, it } = require("node:test");
-const assert = require("node:assert/strict");
-const { findMatchingRule, urlMatchesPattern } = require("../src/pattern-matcher.js");
+import { describe, it } from "node:test";
+import assert from "node:assert/strict";
+import { findMatchingRule, urlMatchesPattern } from "../src/pattern-matcher";
 
 describe("urlMatchesPattern", () => {
   it("matches contains pattern (case insensitive)", () => {
-    const rule = { pattern: "buser", matchType: "contains", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "buser", matchType: "contains" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://app.buser.com.br/tickets", rule), true);
     assert.equal(urlMatchesPattern("https://BUSER.com.br", rule), true);
     assert.equal(urlMatchesPattern("https://example.com", rule), false);
   });
 
   it("matches startsWith pattern", () => {
-    const rule = { pattern: "https://github.com", matchType: "startsWith", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "https://github.com", matchType: "startsWith" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://github.com/avelino", rule), true);
     assert.equal(urlMatchesPattern("https://gitlab.com/github.com", rule), false);
   });
 
   it("matches startsWith pattern (case insensitive)", () => {
-    const rule = { pattern: "https://GitHub.com", matchType: "startsWith", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "https://GitHub.com", matchType: "startsWith" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://github.com/repo", rule), true);
   });
 
   it("matches regex pattern", () => {
-    const rule = { pattern: "^https://(www\\.)?github\\.com", matchType: "regex", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "^https://(www\\.)?github\\.com", matchType: "regex" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://github.com/avelino", rule), true);
     assert.equal(urlMatchesPattern("https://www.github.com/avelino", rule), true);
     assert.equal(urlMatchesPattern("https://gitlab.com", rule), false);
   });
 
   it("returns false for invalid regex (does not throw)", () => {
-    const rule = { pattern: "[invalid(", matchType: "regex", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "[invalid(", matchType: "regex" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://example.com", rule), false);
   });
 
   it("matches domain exactly and subdomains", () => {
-    const rule = { pattern: "github.com", matchType: "domain", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "github.com", matchType: "domain" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://github.com/avelino", rule), true);
     assert.equal(urlMatchesPattern("https://www.github.com/avelino", rule), true);
     assert.equal(urlMatchesPattern("https://api.github.com/repos", rule), true);
@@ -44,18 +44,18 @@ describe("urlMatchesPattern", () => {
   });
 
   it("matches domain case insensitive", () => {
-    const rule = { pattern: "GitHub.com", matchType: "domain", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "GitHub.com", matchType: "domain" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://github.com/repo", rule), true);
   });
 
   it("matches domain with invalid URL gracefully", () => {
-    const rule = { pattern: "github.com", matchType: "domain", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "github.com", matchType: "domain" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("not-a-url", rule), false);
     assert.equal(urlMatchesPattern("", rule), false);
   });
 
   it("matches domainContains for partial domain match", () => {
-    const rule = { pattern: "google", matchType: "domainContains", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "google", matchType: "domainContains" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://mail.google.com", rule), true);
     assert.equal(urlMatchesPattern("https://docs.google.com.br", rule), true);
     assert.equal(urlMatchesPattern("https://google.com", rule), true);
@@ -63,65 +63,64 @@ describe("urlMatchesPattern", () => {
   });
 
   it("matches domainContains case insensitive", () => {
-    const rule = { pattern: "Google", matchType: "domainContains", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "Google", matchType: "domainContains" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://docs.google.com", rule), true);
   });
 
   it("matches domainContains with invalid URL gracefully", () => {
-    const rule = { pattern: "google", matchType: "domainContains", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "google", matchType: "domainContains" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("not-a-url", rule), false);
   });
 
   it("returns false for unknown matchType", () => {
-    const rule = { pattern: "test", matchType: "unknown", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "test", matchType: "unknown" as const, cookieStoreId: "firefox-container-1" };
+    // @ts-expect-error testing invalid matchType
     assert.equal(urlMatchesPattern("https://test.com", rule), false);
   });
 
   it("matches wildcard pattern with * as glob", () => {
-    const rule = { pattern: "*.github.com", matchType: "wildcard", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "*.github.com", matchType: "wildcard" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://api.github.com/repos", rule), true);
     assert.equal(urlMatchesPattern("https://www.github.com", rule), true);
-    // *.github.com requires a char before .github.com — use "domain" type for exact+subdomain matching
     assert.equal(urlMatchesPattern("https://github.com", rule), false);
   });
 
   it("matches wildcard with ** prefix for any URL", () => {
-    const rule = { pattern: "*github.com*", matchType: "wildcard", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "*github.com*", matchType: "wildcard" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://github.com/avelino", rule), true);
     assert.equal(urlMatchesPattern("https://api.github.com", rule), true);
-    assert.equal(urlMatchesPattern("https://fakegithub.com", rule), true); // glob is loose, use domain for strict
+    assert.equal(urlMatchesPattern("https://fakegithub.com", rule), true);
   });
 
   it("matches wildcard pattern with path glob", () => {
-    const rule = { pattern: "github.com/avelino/*", matchType: "wildcard", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "github.com/avelino/*", matchType: "wildcard" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://github.com/avelino/firefox-airtraffic", rule), true);
     assert.equal(urlMatchesPattern("https://github.com/avelino/", rule), true);
     assert.equal(urlMatchesPattern("https://github.com/other/repo", rule), false);
   });
 
   it("matches wildcard case insensitive", () => {
-    const rule = { pattern: "*.GitHub.COM/*", matchType: "wildcard", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "*.GitHub.COM/*", matchType: "wildcard" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://api.github.com/repos", rule), true);
   });
 
   it("wildcard with no * acts as contains", () => {
-    const rule = { pattern: "github.com", matchType: "wildcard", cookieStoreId: "firefox-container-1" };
+    const rule = { id: "1", pattern: "github.com", matchType: "wildcard" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://github.com/avelino", rule), true);
     assert.equal(urlMatchesPattern("https://example.com", rule), false);
   });
 
   it("wildcard escapes regex special chars", () => {
-    const rule = { pattern: "github.com/avelino/*", matchType: "wildcard", cookieStoreId: "firefox-container-1" };
-    // The dot should be literal, not regex any-char
+    const rule = { id: "1", pattern: "github.com/avelino/*", matchType: "wildcard" as const, cookieStoreId: "firefox-container-1" };
     assert.equal(urlMatchesPattern("https://githubXcom/avelino/test", rule), false);
   });
 });
 
 describe("findMatchingRule", () => {
   const rules = [
-    { id: "1", pattern: "github.com", matchType: "contains", cookieStoreId: "firefox-container-1" },
-    { id: "2", pattern: "buser", matchType: "contains", cookieStoreId: "firefox-container-2" },
-    { id: "3", pattern: "^https://slack\\.com", matchType: "regex", cookieStoreId: "firefox-container-3" },
+    { id: "1", pattern: "github.com", matchType: "contains" as const, cookieStoreId: "firefox-container-1" },
+    { id: "2", pattern: "buser", matchType: "contains" as const, cookieStoreId: "firefox-container-2" },
+    { id: "3", pattern: "^https://slack\\.com", matchType: "regex" as const, cookieStoreId: "firefox-container-3" },
   ];
 
   it("returns the first matching rule", () => {
@@ -145,10 +144,10 @@ describe("findMatchingRule", () => {
 
   it("first matching rule wins (order matters)", () => {
     const overlapping = [
-      { id: "a", pattern: "github", matchType: "contains", cookieStoreId: "firefox-container-1" },
-      { id: "b", pattern: "github.com", matchType: "contains", cookieStoreId: "firefox-container-2" },
+      { id: "a", pattern: "github", matchType: "contains" as const, cookieStoreId: "firefox-container-1" },
+      { id: "b", pattern: "github.com", matchType: "contains" as const, cookieStoreId: "firefox-container-2" },
     ];
     const result = findMatchingRule("https://github.com", overlapping);
-    assert.equal(result.id, "a");
+    assert.equal(result?.id, "a");
   });
 });

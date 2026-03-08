@@ -1,4 +1,6 @@
-function extractHostname(url) {
+import type { Rule } from "./types";
+
+function extractHostname(url: string): string | null {
   try {
     return new URL(url).hostname.toLowerCase();
   } catch {
@@ -6,7 +8,7 @@ function extractHostname(url) {
   }
 }
 
-function urlMatchesPattern(url, rule) {
+export function urlMatchesPattern(url: string, rule: Rule): boolean {
   const lowerUrl = url.toLowerCase();
   const lowerPattern = rule.pattern.toLowerCase();
 
@@ -44,15 +46,10 @@ function urlMatchesPattern(url, rule) {
   }
 }
 
-function findMatchingRule(url, rules) {
+export function findMatchingRule(url: string, rules: Rule[] | null | undefined): Rule | null {
   if (!rules) return null;
   for (const rule of rules) {
     if (urlMatchesPattern(url, rule)) return rule;
   }
   return null;
-}
-
-// Export for Node.js tests, but also make available as globals for browser
-if (typeof module !== "undefined" && module.exports) {
-  module.exports = { urlMatchesPattern, findMatchingRule };
 }

@@ -1,22 +1,28 @@
-let airtrafficContainers = [];
+import { CONTAINER_COLORS, CONTAINER_ICONS } from "./constants";
 
-async function loadContainerList() {
+let airtrafficContainers: ContextualIdentity[] = [];
+
+export async function loadContainerList(): Promise<ContextualIdentity[]> {
   airtrafficContainers = await browser.contextualIdentities.query({});
   return airtrafficContainers;
 }
 
-function getContainerName(cookieStoreId) {
+export function getContainers(): ContextualIdentity[] {
+  return airtrafficContainers;
+}
+
+export function getContainerName(cookieStoreId: string): string {
   const c = airtrafficContainers.find((c) => c.cookieStoreId === cookieStoreId);
   return c ? c.name : cookieStoreId;
 }
 
-function getContainerColor(cookieStoreId) {
+export function getContainerColor(cookieStoreId: string): string {
   const c = airtrafficContainers.find((c) => c.cookieStoreId === cookieStoreId);
   if (!c) return "#555";
   return CONTAINER_COLORS[c.color] || "#555";
 }
 
-function populateContainerSelect(selectEl, placeholder) {
+export function populateContainerSelect(selectEl: HTMLSelectElement, placeholder?: string): void {
   selectEl.innerHTML = `<option value="">${placeholder || "Select container..."}</option>`;
   for (const c of airtrafficContainers) {
     const icon = CONTAINER_ICONS[c.icon] || "";

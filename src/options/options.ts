@@ -1,42 +1,44 @@
-// Options page: containers CRUD, settings, import/export, rules with search.
-// Shared logic comes from constants.js, storage.js, containers.js, rules-ui.js.
+import { CONTAINER_COLORS, CONTAINER_ICONS } from "../shared/constants";
+import { loadContainerList, getContainers, getContainerName, populateContainerSelect } from "../shared/containers";
+import { initRulesUI, setRules, getRules, renderRulesList } from "../shared/rules-ui";
+import { loadSettingsFromStorage, saveSettingsToStorage, loadRulesFromStorage, saveRulesToStorage, migrateRulesStorage, getSettings } from "../shared/storage";
 
-const containerSelect = document.getElementById("container-select");
-const defaultContainerSelect = document.getElementById("default-container-select");
-const rulesSearch = document.getElementById("rules-search");
-const rulesEmpty = document.getElementById("rules-empty");
+const containerSelect = document.getElementById("container-select") as HTMLSelectElement;
+const defaultContainerSelect = document.getElementById("default-container-select") as HTMLSelectElement;
+const rulesSearch = document.getElementById("rules-search") as HTMLInputElement;
+const rulesEmpty = document.getElementById("rules-empty") as HTMLElement;
 
 // Settings
-const modeSelect = document.getElementById("mode-select");
-const defaultContainerRow = document.getElementById("default-container-row");
-const syncToggle = document.getElementById("sync-toggle");
+const modeSelect = document.getElementById("mode-select") as HTMLSelectElement;
+const defaultContainerRow = document.getElementById("default-container-row") as HTMLElement;
+const syncToggle = document.getElementById("sync-toggle") as HTMLInputElement;
 
 // Containers
-const containerForm = document.getElementById("container-form");
-const containerNameInput = document.getElementById("container-name-input");
-const containerColorSelect = document.getElementById("container-color-select");
-const containerIconSelect = document.getElementById("container-icon-select");
-const containerSubmitBtn = document.getElementById("container-submit-btn");
-const containerCancelBtn = document.getElementById("container-cancel-btn");
-const containersList = document.getElementById("containers-list");
+const containerForm = document.getElementById("container-form") as HTMLFormElement;
+const containerNameInput = document.getElementById("container-name-input") as HTMLInputElement;
+const containerColorSelect = document.getElementById("container-color-select") as HTMLSelectElement;
+const containerIconSelect = document.getElementById("container-icon-select") as HTMLSelectElement;
+const containerSubmitBtn = document.getElementById("container-submit-btn") as HTMLButtonElement;
+const containerCancelBtn = document.getElementById("container-cancel-btn") as HTMLButtonElement;
+const containersList = document.getElementById("containers-list") as HTMLUListElement;
 
 // Import/Export
-const exportBtn = document.getElementById("export-btn");
-const importBtn = document.getElementById("import-btn");
-const importFile = document.getElementById("import-file");
+const exportBtn = document.getElementById("export-btn") as HTMLButtonElement;
+const importBtn = document.getElementById("import-btn") as HTMLButtonElement;
+const importFile = document.getElementById("import-file") as HTMLInputElement;
 
-let editingContainerId = null;
+let editingContainerId: string | null = null;
 
 // --- Init shared rules UI ---
 initRulesUI({
-  rulesList: document.getElementById("rules-list"),
-  patternInput: document.getElementById("pattern-input"),
-  matchTypeSelect: document.getElementById("match-type-select"),
+  rulesList: document.getElementById("rules-list") as HTMLUListElement,
+  patternInput: document.getElementById("pattern-input") as HTMLInputElement,
+  matchTypeSelect: document.getElementById("match-type-select") as HTMLSelectElement,
   containerSelect,
-  submitBtn: document.getElementById("submit-btn"),
-  cancelBtn: document.getElementById("cancel-btn"),
-  matchHint: document.getElementById("match-hint"),
-  form: document.getElementById("add-rule-form"),
+  submitBtn: document.getElementById("submit-btn") as HTMLButtonElement,
+  cancelBtn: document.getElementById("cancel-btn") as HTMLButtonElement,
+  matchHint: document.getElementById("match-hint") as HTMLElement,
+  form: document.getElementById("add-rule-form") as HTMLFormElement,
   onRulesChanged: () => {
     rulesEmpty.hidden = getRules().length > 0;
   },
@@ -54,7 +56,7 @@ rulesSearch.addEventListener("input", () => {
 
 // --- Containers CRUD ---
 
-function populateIconSelect() {
+function populateIconSelect(): void {
   containerIconSelect.innerHTML = "";
   for (const [value, emoji] of Object.entries(CONTAINER_ICONS)) {
     const opt = document.createElement("option");
@@ -64,9 +66,9 @@ function populateIconSelect() {
   }
 }
 
-function renderContainers() {
+function renderContainers(): void {
   containersList.innerHTML = "";
-  for (const c of airtrafficContainers) {
+  for (const c of getContainers()) {
     const li = document.createElement("li");
     li.className = "container-item";
 
@@ -108,7 +110,7 @@ function renderContainers() {
   }
 }
 
-function startContainerEdit(c) {
+function startContainerEdit(c: ContextualIdentity): void {
   editingContainerId = c.cookieStoreId;
   containerNameInput.value = c.name;
   containerColorSelect.value = c.color;
@@ -118,7 +120,7 @@ function startContainerEdit(c) {
   containerNameInput.focus();
 }
 
-function cancelContainerEdit() {
+function cancelContainerEdit(): void {
   editingContainerId = null;
   containerNameInput.value = "";
   containerColorSelect.value = "blue";
@@ -148,14 +150,14 @@ containerForm.addEventListener("submit", async (e) => {
 
 containerCancelBtn.addEventListener("click", cancelContainerEdit);
 
-async function deleteContainer(cookieStoreId) {
+async function deleteContainer(cookieStoreId: string): Promise<void> {
   if (!confirm("Delete this container? Tabs in it will be closed.")) return;
   await browser.contextualIdentities.remove(cookieStoreId);
   if (editingContainerId === cookieStoreId) cancelContainerEdit();
   await refreshContainers();
 }
 
-async function refreshContainers() {
+async function refreshContainers(): Promise<void> {
   await loadContainerList();
   populateContainerSelect(containerSelect, "Container...");
   populateContainerSelect(defaultContainerSelect, "Select...");
@@ -165,7 +167,7 @@ async function refreshContainers() {
 
 // --- Settings ---
 
-async function applySettings() {
+async function applySettings(): Promise<void> {
   const s = await loadSettingsFromStorage();
   modeSelect.value = s.mode;
   syncToggle.checked = s.useSync;
@@ -175,7 +177,7 @@ async function applySettings() {
 
 modeSelect.addEventListener("change", () => {
   defaultContainerRow.hidden = modeSelect.value !== "route_all";
-  saveSettingsToStorage({ mode: modeSelect.value });
+  saveSettingsToStorage({ mode: modeSelect.value as "route_matched" | "route_all" });
 });
 
 defaultContainerSelect.addEventListener("change", () => {
@@ -183,7 +185,7 @@ defaultContainerSelect.addEventListener("change", () => {
 });
 
 syncToggle.addEventListener("change", async () => {
-  const wasSync = airtrafficSettings.useSync;
+  const wasSync = getSettings().useSync;
   const nowSync = syncToggle.checked;
   if (wasSync !== nowSync) await migrateRulesStorage(wasSync, nowSync);
   await saveSettingsToStorage({ useSync: nowSync });
@@ -210,7 +212,7 @@ exportBtn.addEventListener("click", async () => {
 importBtn.addEventListener("click", () => importFile.click());
 
 importFile.addEventListener("change", async (e) => {
-  const file = e.target.files[0];
+  const file = (e.target as HTMLInputElement).files?.[0];
   if (!file) return;
 
   try {

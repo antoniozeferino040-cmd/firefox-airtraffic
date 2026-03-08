@@ -1,10 +1,12 @@
-const CONTAINER_COLORS = {
+import type { MatchTypeConfig } from "../types";
+
+export const CONTAINER_COLORS: Record<string, string> = {
   blue: "#37adff", turquoise: "#00c79a", green: "#51cd00",
   yellow: "#ffcb00", orange: "#ff9f00", red: "#ff613d",
   pink: "#ff4bda", purple: "#af51f5", toolbar: "#7c7c7d",
 };
 
-const CONTAINER_ICONS = {
+export const CONTAINER_ICONS: Record<string, string> = {
   fingerprint: "\uD83D\uDD90\uFE0F",
   briefcase: "\uD83D\uDCBC",
   dollar: "\uD83D\uDCB2",
@@ -20,7 +22,7 @@ const CONTAINER_ICONS = {
   fence: "\uD83C\uDF1F",
 };
 
-const MATCH_TYPE_CONFIG = {
+export const MATCH_TYPE_CONFIG: Record<string, MatchTypeConfig> = {
   domain:         { placeholder: "github.com",              hint: "Matches github.com and all subdomains",    label: "Domain" },
   domainContains: { placeholder: "google",                  hint: "Matches any domain containing \"google\"", label: "Domain contains" },
   contains:       { placeholder: "buser",                   hint: "Matches any URL containing this text",     label: "URL contains" },

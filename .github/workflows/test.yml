@@ -17,8 +17,17 @@ jobs:
         with:
           node-version: 22
 
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
       - name: Run tests
-        run: node --test tests/pattern-matcher.test.js
+        run: npm test
+
+      - name: Build extension
+        run: npm run build
 
       - name: Lint extension
-        run: npx web-ext lint
+        run: npm run lint
