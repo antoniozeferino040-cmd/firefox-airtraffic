@@ -23,7 +23,10 @@ export function getContainerColor(cookieStoreId: string): string {
 }
 
 export function populateContainerSelect(selectEl: HTMLSelectElement, placeholder?: string): void {
-  selectEl.innerHTML = `<option value="">${placeholder || "Select container..."}</option>`;
+  const defaultOpt = document.createElement("option");
+  defaultOpt.value = "";
+  defaultOpt.textContent = placeholder || "Select container...";
+  selectEl.replaceChildren(defaultOpt);
   for (const c of airtrafficContainers) {
     const icon = CONTAINER_ICONS[c.icon] || "";
     const opt = document.createElement("option");

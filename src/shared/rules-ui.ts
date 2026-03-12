@@ -131,7 +131,7 @@ export function getRules(): Rule[] {
 export function renderRulesList(rules: Rule[]): void {
   const list = state.rulesList;
   if (!list) return;
-  list.innerHTML = "";
+  list.replaceChildren();
 
   rules.forEach((rule, index) => {
     const li = document.createElement("li");

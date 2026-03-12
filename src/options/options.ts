@@ -57,7 +57,7 @@ rulesSearch.addEventListener("input", () => {
 // --- Containers CRUD ---
 
 function populateIconSelect(): void {
-  containerIconSelect.innerHTML = "";
+  containerIconSelect.replaceChildren();
   for (const [value, emoji] of Object.entries(CONTAINER_ICONS)) {
     const opt = document.createElement("option");
     opt.value = value;
@@ -67,7 +67,7 @@ function populateIconSelect(): void {
 }
 
 function renderContainers(): void {
-  containersList.innerHTML = "";
+  containersList.replaceChildren();
   for (const c of getContainers()) {
     const li = document.createElement("li");
     li.className = "container-item";

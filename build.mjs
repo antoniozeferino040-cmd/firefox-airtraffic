@@ -25,7 +25,7 @@ for (const [src, dest] of staticFiles) {
 
 // Copy manifest with updated paths (strip src/ prefix)
 const manifest = JSON.parse(readFileSync("manifest.json", "utf-8"));
-manifest.background.scripts = manifest.background.scripts.map((s) => s.replace(/^src\//, ""));
+manifest.background.scripts = manifest.background.scripts.map((s) => s.replace(/^src\//, "").replace(/\.ts$/, ".js"));
 manifest.browser_action.default_popup = manifest.browser_action.default_popup.replace(/^src\//, "");
 manifest.options_ui.page = manifest.options_ui.page.replace(/^src\//, "");
 writeFileSync(`${dist}/manifest.json`, JSON.stringify(manifest, null, 2));

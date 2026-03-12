@@ -18,7 +18,7 @@
     "<all_urls>"
   ],
   "background": {
-    "scripts": ["src/background.js"]
+    "scripts": ["src/background.ts"]
   },
   "browser_action": {
     "default_icon": {
@@ -34,7 +34,10 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "air-traffic@avelino"
+      "id": "air-traffic@avelino",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
     }
   }
 }
